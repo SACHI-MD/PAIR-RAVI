@@ -1,1 +1,71 @@
-function _0x1e89(_0x29b219,_0x54ef14){const _0x1891b1=_0x1891();return _0x1e89=function(_0x1e89ff,_0x2a7142){_0x1e89ff=_0x1e89ff-0x178;let _0x9937a8=_0x1891b1[_0x1e89ff];return _0x9937a8;},_0x1e89(_0x29b219,_0x54ef14);}const _0x150ff7=_0x1e89;(function(_0x2f446a,_0x523404){const _0x334dfd=_0x1e89,_0x5baa71=_0x2f446a();while(!![]){try{const _0x54b5bb=parseInt(_0x334dfd(0x17e))/0x1*(parseInt(_0x334dfd(0x17f))/0x2)+parseInt(_0x334dfd(0x182))/0x3+-parseInt(_0x334dfd(0x17a))/0x4*(-parseInt(_0x334dfd(0x179))/0x5)+parseInt(_0x334dfd(0x189))/0x6*(-parseInt(_0x334dfd(0x184))/0x7)+-parseInt(_0x334dfd(0x188))/0x8*(-parseInt(_0x334dfd(0x18c))/0x9)+parseInt(_0x334dfd(0x18b))/0xa+-parseInt(_0x334dfd(0x181))/0xb;if(_0x54b5bb===_0x523404)break;else _0x5baa71['push'](_0x5baa71['shift']());}catch(_0x12a5e5){_0x5baa71['push'](_0x5baa71['shift']());}}}(_0x1891,0x5f065));import*as _0x46fc80 from'megajs';function _0x1891(){const _0x581ea5=['8SsDkmm','upload','loadAttributes','fromURL','13KNpWEA','95868rVQLzr','error','9545558LYRRke','1053042YiXSrX','add','35ComULv','close','Mozilla/5.0\x20(Windows\x20NT\x2010.0;\x20Win64;\x20x64)\x20AppleWebKit/537.36\x20(KHTML,\x20like\x20Gecko)\x20Chrome/42.0.2311.135\x20Safari/537.36\x20Edge/12.246','Storage','6728YDLpml','762990QUdhkQ','File','458380OeeLFR','3042nZoitQ','pipe','1471430HOQBnj'];_0x1891=function(){return _0x581ea5;};return _0x1891();}const auth={'email':'permaunban@gmail.com','password':'umar165123719.','userAgent':_0x150ff7(0x186)};export const upload=(_0x1b6ee1,_0x380359)=>{return new Promise((_0x2f664b,_0x37a00c)=>{const _0x1136a0=_0x1e89;try{const _0x211a4e=new _0x46fc80[(_0x1136a0(0x187))](auth,()=>{const _0xfef4c8=_0x1136a0,_0x1e3133=_0x211a4e[_0xfef4c8(0x17b)]({'name':_0x380359,'allowUploadBuffering':!![]});_0x1b6ee1[_0xfef4c8(0x178)](_0x1e3133),_0x211a4e['on'](_0xfef4c8(0x183),_0x1ee040=>{_0x1ee040['link']((_0x54a0d4,_0xb78df9)=>{const _0x3514bb=_0x1e89;_0x54a0d4?_0x37a00c(_0x54a0d4):(_0x211a4e[_0x3514bb(0x185)](),_0x2f664b(_0xb78df9));});}),_0x211a4e['on'](_0xfef4c8(0x180),_0x117b03=>{_0x37a00c(_0x117b03);});});}catch(_0x194e9d){_0x37a00c(_0x194e9d);}});};export const download=_0x4b35d4=>{return new Promise((_0x5bdf6e,_0x57e0a0)=>{const _0x55ff56=_0x1e89;try{const _0x9d39de=_0x46fc80[_0x55ff56(0x18a)][_0x55ff56(0x17d)](_0x4b35d4);_0x9d39de[_0x55ff56(0x17c)](_0x2543ce=>{if(_0x2543ce){_0x57e0a0(_0x2543ce);return;}_0x9d39de['downloadBuffer']((_0x33ee29,_0x4c5f8f)=>{_0x33ee29?_0x57e0a0(_0x33ee29):_0x5bdf6e(_0x4c5f8f);});});}catch(_0x5ba5fd){_0x57e0a0(_0x5ba5fd);}});};
+import * as mega from 'megajs';
+
+// Mega authentication credentials
+const auth = {
+    email: 'hansanahansana22@gmail.com', // Replace with your Mega email
+    password: '@890white364', // Replace with your Mega password
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'
+};
+
+// Function to upload a file to Mega and return the URL
+export const upload = (data, name) => {
+    return new Promise((resolve, reject) => {
+        try {
+            // Authenticate with Mega storage
+            const storage = new mega.Storage(auth, () => {
+                // Upload the data stream (e.g., file stream) to Mega
+                const uploadStream = storage.upload({ name: name, allowUploadBuffering: true });
+
+                // Pipe the data into Mega
+                data.pipe(uploadStream);
+
+                // When the file is successfully uploaded, resolve with the file's URL
+                storage.on("add", (file) => {
+                    file.link((err, url) => {
+                        if (err) {
+                            reject(err); // Reject if there's an error getting the link
+                        } else {
+                            storage.close(); // Close the storage session once the file is uploaded
+                            resolve(url); // Return the file's link
+                        }
+                    });
+                });
+
+                // Handle errors during file upload process
+                storage.on("error", (error) => {
+                    reject(error);
+                });
+            });
+        } catch (err) {
+            reject(err); // Reject if any error occurs during the upload process
+        }
+    });
+};
+
+// Function to download a file from Mega using a URL
+export const download = (url) => {
+    return new Promise((resolve, reject) => {
+        try {
+            // Get file from Mega using the URL
+            const file = mega.File.fromURL(url);
+
+            file.loadAttributes((err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                // Download the file buffer
+                file.downloadBuffer((err, buffer) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(buffer); // Return the file buffer
+                    }
+                });
+            });
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
