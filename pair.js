@@ -8,11 +8,13 @@ import { makeWASocket, useMultiFileAuthState, delay, makeCacheableSignalKeyStore
 
 const router = express.Router();
 
-// GitHub Credentials & Repo Info
-const GITHUB_TOKEN = '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';
-const GITHUB_OWNER = 'SACHI-MD';
-const GITHUB_REPO = 'SESSION-DATA';
-const GITHUB_PATH = 'sessions/';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_OWNER = 'DEXTER-ID-KING';
+const GITHUB_REPO = 'PKO-MD';
+const GITHUB_PATH = 'PKO/';
 const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
 function removeFile(dirPath) {
