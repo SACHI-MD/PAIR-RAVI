@@ -17,7 +17,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@whiskeysockets/baileys": "github:seiren-primrose/PL-Baileys",
+    "@whiskeysockets/baileys": "npm:@fizzxydev/baileys-pro@latest",
     "qrcode": "^1.5.3",
     "awesome-phonenumber": "^2.64.0",
     "pino": "^8.1.0",
